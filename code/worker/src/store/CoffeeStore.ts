@@ -61,11 +61,19 @@ export class CoffeeStore {
     }
 
     /**
+     * Find all the coffees by a UID.
+     * @param uid UID of the card.
+     * @returns Array of coffees.
+     */
+    public findByUID(uid: string): Coffee[] {
+        return this.coffees.filter(coffee => coffee.uid == uid);
+    }
+
+    /**
      * Add a new coffee to the collection.
      * @param coffee New coffee.
      */
     public new(coffee: Coffee): void {
         this.coffees.push(coffee);
-
     }
 }

@@ -8,9 +8,11 @@
  * Learn more at https://developers.cloudflare.com/workers/
  */
 
-import { Router } from "itty-router";
+import { Request as IttyRequest, Router } from "itty-router";
 import CoffeeCount from './handlers/CoffeeCount';
+import GetTab from "./handlers/GetTab";
 import NewCoffee from "./handlers/NewCoffee";
+import TopUpTab from "./handlers/TopUpTab";
 
 
 export interface Env {
@@ -25,8 +27,19 @@ export interface Env {
 	// MY_BUCKET: R2Bucket;
 }
 
+export type Obj = {
+	[propName: string]: string
+}
+
+export interface IRequest extends Request {
+	method: string
+	params?: Obj
+	query?: Obj
+	url: string
+}
+
 // Create a new itty-router instance.
-const router = Router();
+const router = Router<IRequest>();
 
 // Define the routes that itty should know about.
 // Provide a fallback route so that a requests always gets a response.
@@ -36,6 +49,8 @@ const router = Router();
 router
 	.get('/api/coffee-count', CoffeeCount)
 	.post('/api/coffee-count', NewCoffee)
+	.get('/api/tab/:uid', GetTab)
+	.post('/api/tab/:uid/top-up', TopUpTab)
 	.get('*', (
 		request: Request,
 		env: Env,

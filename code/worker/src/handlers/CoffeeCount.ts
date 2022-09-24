@@ -1,8 +1,9 @@
-import { Env } from "..";
+import { Request } from "itty-router";
+import { Env, IRequest } from "..";
 import { CoffeeStore } from "../store/CoffeeStore";
 
 const CoffeeCount = async (
-    request: Request,
+    request: IRequest,
     env: Env,
     ctx: ExecutionContext
 ) => {
