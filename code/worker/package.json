@@ -1,6 +1,6 @@
 {
   "name": "tm-coffeecounter",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "devDependencies": {
     "@cloudflare/workers-types": "^3.16.0",
     "typescript": "^4.8.3",
