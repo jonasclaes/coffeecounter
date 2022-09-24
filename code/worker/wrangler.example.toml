@@ -1,0 +1,6 @@
+name = "tm-coffeecounter"
+main = "src/index.ts"
+compatibility_date = "2022-09-21"
+kv_namespaces = [
+    { binding = "COFFEES", id = "xxx", preview_id = "xxx" }
+]

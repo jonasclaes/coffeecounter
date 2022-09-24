@@ -1,0 +1,22 @@
+{
+  "name": "tm-coffeecounter",
+  "version": "1.0.0",
+  "devDependencies": {
+    "@cloudflare/workers-types": "^3.16.0",
+    "typescript": "^4.8.3",
+    "wrangler": "2.1.6"
+  },
+  "private": false,
+  "scripts": {
+    "start": "wrangler dev",
+    "deploy": "wrangler publish"
+  },
+  "dependencies": {
+    "itty-router": "^2.6.3"
+  },
+  "author": {
+    "name": "Jonas Claes",
+    "email": "jonas@jonasclaes.be",
+    "url": "https://jonasclaes.be"
+  }
+}

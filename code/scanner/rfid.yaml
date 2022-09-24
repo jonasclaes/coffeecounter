@@ -1,0 +1,72 @@
+esphome:
+  name: coffeecounter
+
+esp32:
+  board: esp32dev
+  framework:
+    type: arduino
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  password: ""
+
+ota:
+  password: ""
+
+wifi:
+  ssid: "Dino IoT"
+  password: "JonasIsNice2022"
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Coffeecounter Fallback Hotspot"
+    password: "dljPF6IJdbXQ"
+
+captive_portal:
+
+output:
+  - platform: ledc
+    pin: 22
+    id: buzzer
+
+http_request:
+  useragent: ESPHome/CoffeeCounter
+  timeout: 3s
+  follow_redirects: False
+
+spi:
+  clk_pin: 18
+  miso_pin: 19
+  mosi_pin: 23
+
+pn532_spi:
+  cs_pin: 21
+  update_interval: 1s
+  on_tag:
+    then:
+      - output.turn_on: buzzer
+      - output.ledc.set_frequency:
+          id: buzzer
+          frequency: "1000Hz"
+      - output.set_level:
+          id: buzzer
+          level: "60%"
+      - delay: 0.2s
+      - output.turn_off: buzzer
+      - http_request.post:
+          url: http://tm-coffeecounter.jonasclaesbe.workers.dev/api/coffee-count
+          headers: 
+            Content-Type: "application/json"
+            X-API-Key: !secret cloudflare_worker_api_key
+          json:
+            uid: !lambda |-
+              return (x.substr(0,2) + x.substr(3,2) + x.substr(6,2) + x.substr(9,2) + x.substr(12,2) + x.substr(15,2) + x.substr(18,2));
+          on_response: 
+            then:
+              - logger.log:
+                  format: 'Response status: %d'
+                  args:
+                    - status_code
