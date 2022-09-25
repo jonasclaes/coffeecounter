@@ -8,7 +8,7 @@
  * Learn more at https://developers.cloudflare.com/workers/
  */
 
-import { Request as IttyRequest, Router } from "itty-router";
+import { Router } from "itty-router";
 import CoffeeCount from './handlers/CoffeeCount';
 import GetTab from "./handlers/GetTab";
 import NewCoffee from "./handlers/NewCoffee";
@@ -16,13 +16,16 @@ import TopUpTab from "./handlers/TopUpTab";
 
 
 export interface Env {
-	// Example binding to KV. Learn more at https://developers.cloudflare.com/workers/runtime-apis/kv/
-	// MY_KV_NAMESPACE: KVNamespace;
+	// Environment variables
+	DEVICE_API_KEY: string;
+	API_KEY: string;
+
+	// KV Namespaces
 	COFFEES: KVNamespace;
-	//
+	
 	// Example binding to Durable Object. Learn more at https://developers.cloudflare.com/workers/runtime-apis/durable-objects/
 	// MY_DURABLE_OBJECT: DurableObjectNamespace;
-	//
+	
 	// Example binding to R2. Learn more at https://developers.cloudflare.com/workers/runtime-apis/r2/
 	// MY_BUCKET: R2Bucket;
 }

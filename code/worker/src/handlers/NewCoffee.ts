@@ -13,16 +13,13 @@ const NewCoffee = async (
         'Content-Type': 'application/json'
     };
 
-    // Retrieve the API key from the KV store.
-    const apiKey = await env.COFFEES.get('apiKey');
-
     // Check if the API key has been set, if not, throw a server error at the client.
-    if ( ! apiKey ) {
+    if ( ! env.DEVICE_API_KEY ) {
         return new Response(JSON.stringify({ error: 'Internal server error' }), { headers, status: 500 })
     }
 
     // Check if the API key in the request header matches the one in the KV store.
-    if ( request.headers.get('X-API-Key') != apiKey ) {
+    if ( request.headers.get('X-API-Key') != env.DEVICE_API_KEY ) {
         return new Response(JSON.stringify({ error: 'Unauthorized' }), { headers, status: 401 })
     }
 
