@@ -53,7 +53,7 @@ pn532_spi:
           frequency: "1000Hz"
       - output.set_level:
           id: buzzer
-          level: "60%"
+          level: "80%"
       - delay: 0.2s
       - output.turn_off: buzzer
       - http_request.post:
