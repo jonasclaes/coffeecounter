@@ -1,6 +1,7 @@
 import { Env, IRequest } from "..";
 import { COFFEE_UID_LENGTH } from "../const";
 import { Coffee, CoffeeStore } from "../store/CoffeeStore";
+import { v4 as uuidv4 } from "uuid";
 
 const NewCoffee = async (
     request: IRequest,
@@ -40,11 +41,14 @@ const NewCoffee = async (
         return new Response(JSON.stringify({ error: 'Invalid parameter length', parameter: 'uid', length: coffee.uid.length, required: COFFEE_UID_LENGTH }), { headers, status: 400 })
     }
 
+    // Create a new UUID.
+    coffee.uuid = uuidv4();
+
     // Set the timestamp of the coffee.
     coffee.timestamp = Date.now();
 
     // Add it to the list of coffees.
-    coffeeStore.new(coffee);
+    coffeeStore.add(coffee);
 
     // Save the list of coffees back to the KV store.
     await coffeeStore.save();

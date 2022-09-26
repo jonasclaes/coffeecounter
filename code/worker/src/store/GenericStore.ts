@@ -1,9 +1,13 @@
 import { Env } from "..";
 
+export interface GenericItem {
+    uuid: string;
+}
+
 /**
  * A generic store to persist items.
  */
-export abstract class GenericStore<T> {
+export abstract class GenericStore<T extends GenericItem> {
     protected STORE_KEY: string = 'undefined';
     protected env: Env;
     protected items: T[] = [];
@@ -51,5 +55,30 @@ export abstract class GenericStore<T> {
      */
     public count(): number {
         return this.items.length;
+    }
+
+    /**
+     * Add a generic item to the list.
+     * @param item The item to add.
+     */
+    public add(item: T): void {
+        this.items.push(item);
+    }
+
+    /**
+     * Update a generic item in the list.
+     * @param uuid UUID of the item.
+     * @param item The item to set.
+     */
+    public update(uuid: string, newItem: T): void {
+        const itemIndex = this.items.findIndex(item => item.uuid == uuid);
+        
+        if (itemIndex < 0) throw new Error("Item not found");
+
+        this.items[itemIndex] = newItem;
+    }
+
+    public delete(uuid: string): void {
+        this.items = this.items.filter(item => item.uuid != uuid);
     }
 }

@@ -10,9 +10,11 @@
 
 import { Router } from "itty-router";
 import CoffeeCount from './handlers/CoffeeCount';
-import GetTab from "./handlers/GetTab";
+import CoupleCardToAccount from "./handlers/CoupleCardToAccount";
+import CreateAccount from "./handlers/CreateAccount";
+import GetAccount from "./handlers/GetAccount";
 import NewCoffee from "./handlers/NewCoffee";
-import TopUpTab from "./handlers/TopUpTab";
+import TopUpAccount from "./handlers/TopUpAccount";
 
 
 export interface Env {
@@ -52,8 +54,10 @@ const router = Router<IRequest>();
 router
 	.get('/api/coffee-count', CoffeeCount)
 	.post('/api/coffee-count', NewCoffee)
-	.get('/api/tab/:uid', GetTab)
-	.post('/api/tab/:uid/top-up', TopUpTab)
+	.post('/api/account', CreateAccount)
+	.post('/api/account/card', CoupleCardToAccount)
+	.get('/api/account/:email', GetAccount)
+	.post('/api/account/:email/top-up', TopUpAccount)
 	.get('*', (
 		request: Request,
 		env: Env,
