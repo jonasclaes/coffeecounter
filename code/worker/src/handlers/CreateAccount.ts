@@ -13,16 +13,6 @@ const CreateAccount = async (
         'Content-Type': 'application/json'
     };
 
-    // Check if the API key has been set, if not, throw a server error at the client.
-    if (!env.API_KEY) {
-        return new Response(JSON.stringify({ error: 'Internal server error' }), { headers, status: 500 })
-    }
-
-    // Check if the API key in the request header matches the one in the KV store.
-    if (request.headers.get('X-API-Key') != env.API_KEY) {
-        return new Response(JSON.stringify({ error: 'Unauthorized' }), { headers, status: 401 })
-    }
-
     // Create a coffee store and load the coffees from the KV store.
     const accountStore = new AccountStore(env);
     await accountStore.load();

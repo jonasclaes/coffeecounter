@@ -13,16 +13,6 @@ const GetAccount = async (
         'Content-Type': 'application/json'
     };
 
-    // Check if the API key has been set, if not, throw a server error at the client.
-    if (!env.API_KEY) {
-        return new Response(JSON.stringify({ error: 'Internal server error' }), { headers, status: 500 })
-    }
-
-    // Check if the API key in the request header matches the one in the KV store.
-    if (request.headers.get('X-API-Key') != env.API_KEY) {
-        return new Response(JSON.stringify({ error: 'Unauthorized' }), { headers, status: 401 })
-    }
-
     if (!request.params || !request.params.email) {
         return new Response(JSON.stringify({ error: 'Missing URL parameter', parameter: 'email' }), { headers, status: 400 })
     }
@@ -33,6 +23,11 @@ const GetAccount = async (
     await Promise.all([accountStore.load(), coffeeStore.load()]);
 
     const account = accountStore.findOneByEmail(request.params.email);
+
+    // Check if the API key in the request header matches the one in the KV store.
+    if (request.headers.get('Authorization') != account?.password) {
+        return new Response(JSON.stringify({ error: 'Unauthorized' }), { headers, status: 401 })
+    }
 
     if (!account) {
         return new Response(JSON.stringify({ error: 'Not found' }), { headers, status: 404 })

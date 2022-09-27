@@ -4,7 +4,10 @@ export interface Account extends GenericItem {
     firstName: string;
     lastName: string;
     email: string;
+
+    // A pin code.
     password: string;
+    
     cards: string[];
     balance: number;
 }
