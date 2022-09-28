@@ -13,14 +13,14 @@ const config = {
 		adapter: adapter({
 			pages: 'build',
 			assets: 'build',
-			fallback: null,
+			fallback: '200.html',
 			precompress: false
 		})
 	},
 
-	prerender: {
-		default: true
-	}
+	// prerender: {
+	// 	default: true
+	// }
 };
 
 export default config;
