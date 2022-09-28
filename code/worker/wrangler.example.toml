@@ -1,23 +1,23 @@
-name = "tm-coffeecounter-dev"
-
-main = "src/index.ts"
-
-compatibility_date = "2022-09-21"
+name                = "tm-coffeecounter-dev"
+main                = "src/index.ts"
+compatibility_date  = "2022-09-21"
 
 kv_namespaces = [
     { binding = "COFFEES", id = "xxx", preview_id = "xxx" }
 ]
 
 [vars]
-DEVICE_API_KEY = "xxx"
-API_KEY = "xxx"
+DEVICE_API_KEY  = "xxx"
+API_KEY         = "xxx"
+JWT_SECRET      = "xxx"
 
 [env.production]
-name = "tm-coffeecounter"
-kv_namespaces = [
+name            = "tm-coffeecounter"
+kv_namespaces   = [
     { binding = "COFFEES", id = "xxx", preview_id = "xxx" }
 ]
 
 [env.production.vars]
-DEVICE_API_KEY = "xxx"
-API_KEY = "xxx"
+DEVICE_API_KEY  = "xxx"
+API_KEY         = "xxx"
+JWT_SECRET      = "xxx"

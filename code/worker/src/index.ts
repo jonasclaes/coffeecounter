@@ -12,6 +12,7 @@ import { Router } from "itty-router";
 import CoffeeCount from './handlers/CoffeeCount';
 import CoupleCardToAccount from "./handlers/CoupleCardToAccount";
 import CreateAccount from "./handlers/CreateAccount";
+import GetAccessToken from "./handlers/GetAccessToken";
 import GetAccount from "./handlers/GetAccount";
 import NewCoffee from "./handlers/NewCoffee";
 import TopUpAccount from "./handlers/TopUpAccount";
@@ -21,6 +22,7 @@ export interface Env {
 	// Environment variables
 	DEVICE_API_KEY: string;
 	API_KEY: string;
+	JWT_SECRET: string;
 
 	// KV Namespaces
 	COFFEES: KVNamespace;
@@ -54,10 +56,11 @@ const router = Router<IRequest>();
 router
 	.get('/api/coffee-count', CoffeeCount)
 	.post('/api/coffee-count', NewCoffee)
+	.get('/api/account', GetAccount)
 	.post('/api/account', CreateAccount)
+	.post('/api/account/login', GetAccessToken)
 	.post('/api/account/card', CoupleCardToAccount)
-	.get('/api/account/:email', GetAccount)
-	.post('/api/account/:email/top-up', TopUpAccount)
+	.post('/api/account/top-up', TopUpAccount)
 	.get('*', (
 		request: Request,
 		env: Env,

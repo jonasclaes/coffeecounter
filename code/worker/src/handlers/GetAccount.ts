@@ -1,6 +1,8 @@
 import { Env, IRequest } from "..";
 import { Account, AccountStore } from "../store/AccountStore";
 import { CoffeeStore } from "../store/CoffeeStore";
+import jwt from '@tsndr/cloudflare-worker-jwt'
+
 
 const GetAccount = async (
     request: IRequest,
@@ -13,21 +15,30 @@ const GetAccount = async (
         'Content-Type': 'application/json'
     };
 
-    if (!request.params || !request.params.email) {
-        return new Response(JSON.stringify({ error: 'Missing URL parameter', parameter: 'email' }), { headers, status: 400 })
-    }
-
     const accountStore = new AccountStore(env);
     const coffeeStore = new CoffeeStore(env);
     
     await Promise.all([accountStore.load(), coffeeStore.load()]);
 
-    const account = accountStore.findOneByEmail(request.params.email);
+    const accessToken = request.headers.get('Authorization');
 
-    // Check if the API key in the request header matches the one in the KV store.
-    if (request.headers.get('Authorization') != account?.password) {
+    if (!accessToken) {
         return new Response(JSON.stringify({ error: 'Unauthorized' }), { headers, status: 401 })
     }
+
+    const tokenIsValid = await jwt.verify(accessToken, env.JWT_SECRET);
+
+    if (!tokenIsValid) {
+        return new Response(JSON.stringify({ error: 'Unauthorized' }), { headers, status: 401 })
+    }
+
+    const decodedToken = jwt.decode(accessToken);
+
+    if (!decodedToken.payload.sub) {
+        return new Response(JSON.stringify({ error: 'Unauthorized' }), { headers, status: 401 })
+    }
+
+    const account = accountStore.findOneByEmail(decodedToken.payload.sub);
 
     if (!account) {
         return new Response(JSON.stringify({ error: 'Not found' }), { headers, status: 404 })
@@ -36,9 +47,11 @@ const GetAccount = async (
     const { password, ...outAccount } = account;
 
     let calculatedBalance = 0;
+    let allCoffees = [];
 
     for (const card of account.cards) {
         const coffees = coffeeStore.findByUID(card);
+        allCoffees.push(...coffees);
 
         let balance = coffees.length * 10;
         calculatedBalance -= balance;
@@ -46,7 +59,7 @@ const GetAccount = async (
 
     calculatedBalance += account.balance;
 
-    return new Response(JSON.stringify({ account: outAccount, calculatedBalance }), { headers, status: 200 });
+    return new Response(JSON.stringify({ account: outAccount, calculatedBalance, coffees: allCoffees }), { headers, status: 200 });
 }
 
 export default GetAccount;
