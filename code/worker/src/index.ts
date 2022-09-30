@@ -26,10 +26,10 @@ export interface Env {
 
 	// KV Namespaces
 	COFFEES: KVNamespace;
-	
+
 	// Example binding to Durable Object. Learn more at https://developers.cloudflare.com/workers/runtime-apis/durable-objects/
 	// MY_DURABLE_OBJECT: DurableObjectNamespace;
-	
+
 	// Example binding to R2. Learn more at https://developers.cloudflare.com/workers/runtime-apis/r2/
 	// MY_BUCKET: R2Bucket;
 }
@@ -61,12 +61,16 @@ router
 	.post('/api/account/login', GetAccessToken)
 	.post('/api/account/card', CoupleCardToAccount)
 	.post('/api/account/top-up', TopUpAccount)
-	.options('*', (request: IRequest, env: Env, ctx: ExecutionContext) => new Response("OK", { status: 200, headers: {
-		"Access-Control-Allow-Origin": "*",
-		"Access-Control-Allow-Headers": "*",
-		"Access-Control-Allow-Methods": "GET, POST, PATCH, PUT, DELETE, OPTIONS, HEAD",
-		"Access-Control-Allow-Credentials": "true"
-	} }))
+	.options('*', (request: IRequest, env: Env, ctx: ExecutionContext) => {
+		return new Response("OK", {
+			status: 200, headers: {
+				"Access-Control-Allow-Origin": request.headers.get('origin') || "*",
+				"Access-Control-Allow-Headers": "*",
+				"Access-Control-Allow-Methods": "GET, POST, PATCH, PUT, DELETE, OPTIONS, HEAD",
+				"Access-Control-Allow-Credentials": "true"
+			}
+		})
+	})
 	.get('*', (
 		request: IRequest,
 		env: Env,

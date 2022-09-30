@@ -11,8 +11,10 @@ const GetAccount = async (
 ) => {
     // Generic set of headers.
     const headers = {
-        'Access-Control-Allow-Origin': '*',
-        'Content-Type': 'application/json'
+        "Access-Control-Allow-Origin": request.headers.get('origin') || "*",
+        "Access-Control-Allow-Headers": "*",
+        "Access-Control-Allow-Methods": "GET, POST, PATCH, PUT, DELETE, OPTIONS, HEAD",
+        "Access-Control-Allow-Credentials": "true"
     };
 
     const accountStore = new AccountStore(env);

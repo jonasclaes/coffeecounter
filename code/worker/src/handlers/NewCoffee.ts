@@ -10,8 +10,10 @@ const NewCoffee = async (
 ) => {
     // Generic set of headers.
     const headers = {
-        'Access-Control-Allow-Origin': '*',
-        'Content-Type': 'application/json'
+        "Access-Control-Allow-Origin": request.headers.get('origin') || "*",
+        "Access-Control-Allow-Headers": "*",
+        "Access-Control-Allow-Methods": "GET, POST, PATCH, PUT, DELETE, OPTIONS, HEAD",
+        "Access-Control-Allow-Credentials": "true"
     };
 
     // Check if the API key has been set, if not, throw a server error at the client.
