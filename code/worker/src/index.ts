@@ -61,8 +61,14 @@ router
 	.post('/api/account/login', GetAccessToken)
 	.post('/api/account/card', CoupleCardToAccount)
 	.post('/api/account/top-up', TopUpAccount)
+	.options('*', (request: IRequest, env: Env, ctx: ExecutionContext) => new Response("OK", { status: 200, headers: {
+		"Access-Control-Allow-Origin": "*",
+		"Access-Control-Allow-Headers": "*",
+		"Access-Control-Allow-Methods": "GET, POST, PATCH, PUT, DELETE, OPTIONS, HEAD",
+		"Access-Control-Allow-Credentials": "true"
+	} }))
 	.get('*', (
-		request: Request,
+		request: IRequest,
 		env: Env,
 		ctx: ExecutionContext
 	) => new Response('I\'m a Teapot', { status: 418 }));

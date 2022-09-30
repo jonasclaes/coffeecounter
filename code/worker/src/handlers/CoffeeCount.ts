@@ -1,4 +1,3 @@
-import { Request } from "itty-router";
 import { Env, IRequest } from "..";
 import { CoffeeStore } from "../store/CoffeeStore";
 
