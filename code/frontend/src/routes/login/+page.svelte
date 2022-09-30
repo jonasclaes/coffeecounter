@@ -19,7 +19,8 @@
 					headers: {
 						'Content-Type': 'application/json',
 						Accept: 'application/json'
-					}
+					},
+					credentials: 'same-origin'
 				}
 			);
 
