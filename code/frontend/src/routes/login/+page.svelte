@@ -1,4 +1,6 @@
 <script>
+	import { goto } from '$app/navigation';
+	import { tokenStore } from '../../lib/token';
 	import { login } from './store';
 	let loading = false;
 
@@ -17,24 +19,11 @@
 					method: 'POST',
 					body: JSON.stringify($login),
 					headers: {
+						'Content-Type': 'application/json',
 						Accept: 'application/json'
-					},
-					credentials: 'include'
+					}
 				}
 			);
-
-			// const res = await fetch(
-			// 	// `https://tm-coffeecounter.jonasclaesbe.workers.dev/api/account/login`,
-			// 	`http://127.0.0.1:8787/api/coffee-count`,
-			// 	{
-			// 		method: 'GET',
-			// 		// body: JSON.stringify($login),
-			// 		headers: {
-			// 			// 'Content-Type': 'application/json',
-			// 			Accept: 'application/json'
-			// 		}
-			// 	}
-			// );
 
 			if (res.status != 200) {
 				throw new Error('Status code not equal to 200');
@@ -42,7 +31,8 @@
 
 			const data = await res.json();
 
-			console.log(data);
+			tokenStore.set(data.accessToken);
+			goto('/usage');
 		} catch (err) {
 		} finally {
 			loading = false;

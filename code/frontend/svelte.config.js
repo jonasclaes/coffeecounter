@@ -16,7 +16,8 @@ const config = {
 			fallback: null,
 			precompress: false
 		})
-	}
+	},
+	ssr: false
 };
 
 export default config;
