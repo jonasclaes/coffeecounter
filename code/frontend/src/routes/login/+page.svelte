@@ -17,7 +17,6 @@
 					method: 'POST',
 					body: JSON.stringify($login),
 					headers: {
-						'Content-Type': 'application/json',
 						Accept: 'application/json'
 					},
 					credentials: 'include'
