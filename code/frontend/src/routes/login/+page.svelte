@@ -20,7 +20,7 @@
 						'Content-Type': 'application/json',
 						Accept: 'application/json'
 					},
-					credentials: 'same-origin'
+					credentials: 'include'
 				}
 			);
 
