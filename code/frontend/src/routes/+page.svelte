@@ -7,6 +7,7 @@
 				you rack up.
 			</p>
 			<a class="btn btn-primary" href="/usage">View usage</a>
+			<a class="btn btn-secondary" href="/register">Register account</a>
 		</div>
 	</div>
 </div>

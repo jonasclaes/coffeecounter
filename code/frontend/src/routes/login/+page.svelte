@@ -52,7 +52,7 @@
 					<span class="label-text">What is your email address?</span>
 				</label>
 				<input
-					type="text"
+					type="email"
 					id="email"
 					placeholder="Type here"
 					class="input input-bordered w-full"

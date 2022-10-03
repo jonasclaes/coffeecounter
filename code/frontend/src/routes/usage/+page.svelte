@@ -92,7 +92,7 @@
 				</div>
 			</div>
 			<div>
-				<button class="btn btn-primary w-32">Top up</button>
+				<a class="btn btn-primary w-32" href="/top-up">Top up</a>
 			</div>
 		</div>
 	</div>
